@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DINESH R | CYBERSPACE</title>
+    <style>
+        :root {
+            --void: #000010;
+            --neon: #00ff9d;
+            --psychic: #9d00ff;
+            --blood: #ff003c;
+            --matrix: #00ff41;
+            --cyber-blue: #00ccff;
+            --hologram: #00ffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--void);
+            color: var(--neon);
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            cursor: none;
+            min-height: 100vh;
+        }
+        
+        /* Custom cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s;
+        }
+        
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--blood);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* Terminal Intro */
+        #terminal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--void);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .terminal-container {
+            padding: 2rem;
+            border: 1px solid var(--neon);
+            box-shadow: 0 0 30px var(--neon);
+            background: rgba(0, 0, 0, 0.9);
+            max-width: 800px;
+            width: 90%;
+        }
+        
+        .prompt {
+            color: var(--matrix);
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        .typing-text {
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--neon);
+        }
+        
+        /* Navigation - FIXED */
+        .cyber-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--psychic);
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            color: var(--cyber-blue);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer !important;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .nav-link:hover {
+            color: var(--blood);
+            border-color: var(--blood);
+            box-shadow: 0 0 15px var(--blood);
+            transform: translateY(-2px);
+        }
+        
+        /* About Section with Photo */
+        .cyber-section {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            border-bottom: 1px solid rgba(157, 0, 255, 0.3);
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            color: var(--psychic);
+            margin-bottom: 3rem;
+            text-align: center;
+            text-shadow: 0 0 20px currentColor;
+            letter-spacing: 5px;
+        }
+        
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .photo-frame {
+            width: 300px;
+            height: 300px;
+            border: 3px solid var(--neon);
+            border-radius: 50%;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px var(--neon);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { box-shadow: 0 0 40px var(--neon); }
+            25% { box-shadow: 0 0 40px var(--psychic); }
+            50% { box-shadow: 0 0 40px var(--blood); }
+            75% { box-shadow: 0 0 40px var(--matrix); }
+            100% { box-shadow: 0 0 40px var(--neon); }
+        }
+        
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                var(--neon),
+                transparent,
+                var(--psychic),
+                transparent
+            );
+            animation: rotate-border 3s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes rotate-border {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(45deg, #000, #333);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon);
+            font-size: 1.2rem;
+        }
+        
+        .about-content {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+        }
+        
+        .about-line {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .highlight {
+            color: var(--matrix);
+            font-weight: bold;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        /* Projects Section - FIXED LINKS */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .project-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon);
+            padding: 2rem;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        .project-card:hover::before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 15px 40px var(--neon);
+            border-color: var(--psychic);
+        }
+        
+        .project-title {
+            color: var(--cyber-blue);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .skill-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--psychic);
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .skill-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px var(--psychic);
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact-item {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--psychic);
+            border-radius: 10px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .contact-item:hover {
+            background: rgba(157, 0, 255, 0.2);
+            transform: scale(1.05);
+            border-color: var(--matrix);
+        }
+        
+        /* Terminal Game Modal */
+        .terminal-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .terminal-game {
+            width: 90%;
+            max-width: 800px;
+            height: 70vh;
+            background: #000;
+            border: 2px solid var(--matrix);
+            border-radius: 10px;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .terminal-header {
+            background: #111;
+            padding: 10px;
+            border-bottom: 1px solid var(--matrix);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .terminal-body {
+            padding: 20px;
+            height: calc(100% - 50px);
+            overflow-y: auto;
+        }
+        
+        /* Audio Visualizer */
+        .visualizer-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
+            height: 100px;
+            z-index: 100;
+        }
+        
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            animation: glitch-1 2s infinite linear alternate-reverse;
+            color: var(--blood);
+            z-index: -1;
+        }
+        
+        .glitch::after {
+            animation: glitch-2 1s infinite linear alternate-reverse;
+            color: var(--psychic);
+            z-index: -2;
+        }
+        
+        @keyframes glitch-1 {
+            0% { clip: rect(20px, 9999px, 25px, 0); }
+            5% { clip: rect(15px, 9999px, 30px, 0); }
+            10% { clip: rect(25px, 9999px, 40px, 0); }
+            15% { clip: rect(10px, 9999px, 35px, 0); }
+            20% { clip: rect(30px, 9999px, 45px, 0); }
+            100% { clip: rect(0, 0, 0, 0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cyber-nav {
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .nav-link {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .photo-frame {
+                width: 250px;
+                height: 250px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    
+    <!-- Terminal Intro -->
+    <section id="terminal">
+        <div class="terminal-container">
+            <div class="terminal-text">
+                <span class="prompt">></span>
+                <span class="typing-text"></span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Navigation - FIXED -->
+    <nav class="cyber-nav" style="display: none;">
+        <span class="nav-link" data-target="about">[ABOUT]</span>
+        <span class="nav-link" data-target="projects">[PROJECTS]</span>
+        <span class="nav-link" data-target="skills">[SKILLS]</span>
+        <span class="nav-link" data-target="contact">[CONTACT]</span>
+        <span class="nav-link" id="game-btn">[HACK_GAME]</span>
+        <span class="nav-link" id="audio-toggle">[SOUND:ON]</span>
+    </nav>
+    
+    <!-- Terminal Game Modal -->
+    <div class="terminal-modal" id="game-modal">
+        <div class="terminal-game">
+            <div class="terminal-header">
+                <span style="color: var(--matrix);">⚠ HACKING_GAME.EXE</span>
+                <span class="nav-link" id="close-game" style="cursor: pointer;">[CLOSE]</span>
+            </div>
+            <div class="terminal-body" id="game-output">
+                <div style="color: var(--neon); margin-bottom: 1rem;">
+                    > INITIATING PENTEST SIMULATION...
+                </div>
+                <div id="game-content">
+                    <!-- Game content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 3D Scene Container -->
+    <div id="scene-container"></div>
+    
+    <!-- Audio Visualizer -->
+    <div class="visualizer-container">
+        <canvas id="audio-visualizer"></canvas>
+    </div>
+    
+    <!-- Main Content -->
+    <main id="main-content" style="display: none;">
+        
+        <!-- About Section with Photo -->
+        <section id="about" class="cyber-section">
+            <h2 class="section-title glitch" data-text="« ABOUT_ME »">« ABOUT_ME »</h2>
+            <div class="about-container">
+                <div class="photo-frame">
+                    <div class="photo-frame">
+                        <div class="profile-photo" id="profile-photo">
+                            <!-- YOUR ACTUAL PHOTO HERE -->
+                            <img src="image.jpg" 
+                                alt="Dinesh R - Cyber Security"
+                                style="width: 100%; 
+                                        height: 100%; 
+                                        border-radius: 50%; 
+                                        object-fit: cover;
+                                        display: block;">
+                        </div>
+                    </div>
+                </div>
+                <div class="about-content" id="about-text">
+                    <!-- About text loaded dynamically -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Projects Section with FIXED LINKS -->
+        <section id="projects" class="cyber-section">
+            <h2 class="section-title glitch" data-text="« PROJECTS »">« PROJECTS »</h2>
+            <div class="projects-grid" id="projects-container">
+                <!-- Projects loaded dynamically -->
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="cyber-section">
+            <h2 class="section-title glitch" data-text="« SKILLS »">« SKILLS »</h2>
+            <div class="skills-grid" id="skills-container">
+                <!-- Skills loaded dynamically -->
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="cyber-section">
+            <h2 class="section-title glitch" data-text="« CONTACT »">« CONTACT »</h2>
+            <div class="contact-container">
+                <div class="contact-item">
+                    <h3 style="color: var(--matrix);">📱 PHONE</h3>
+                    <p style="font-size: 1.5rem; margin-top: 0.5rem; color: var(--neon);">+91 8148411369</p>
+                    <div style="margin-top: 1rem;">
+                        <button class="nav-link" onclick="copyToClipboard('8148411369')" style="display: inline-block; margin: 0 0.5rem; cursor: pointer;">[COPY]</button>
+                        <a href="tel:+918148411369" class="nav-link" style="display: inline-block; margin: 0 0.5rem; cursor: pointer;">[CALL]</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <h3 style="color: var(--matrix);">📧 EMAIL</h3>
+                    <p style="font-size: 1.3rem; margin-top: 0.5rem; color: var(--neon);">rdineshd176@gmail.com</p>
+                    <div style="margin-top: 1rem;">
+                        <button class="nav-link" onclick="copyToClipboard('rdineshd176@gmail.com')" style="display: inline-block; margin: 0 0.5rem; cursor: pointer;">[COPY]</button>
+                        <a href="mailto:rdineshd176@gmail.com" class="nav-link" style="display: inline-block; margin: 0 0.5rem; cursor: pointer;">[MAIL]</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <h3 style="color: var(--matrix);">🌐 LINKS</h3>
+                    <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                        <a href="https://www.linkedin.com/in/dinesh-r-211a81321" target="_blank" class="nav-link" style="cursor: pointer;">[LINKEDIN]</a>
+                        <a href="https://github.com/rdineshd176-png" target="_blank" class="nav-link" style="cursor: pointer;">[GITHUB]</a>
+                        <a href="https://github.com/rdineshd176-png?tab=repositories" target="_blank" class="nav-link" style="cursor: pointer;">[ALL_PROJECTS]</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Floating Quotes -->
+    <div id="floating-quotes"></div>
+    
+    <!-- Audio -->
+    <audio id="bg-audio" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script>
+        // ====================
+        // INITIALIZATION
+        // ====================
+        console.log("%c🔥 CYBERSPACE V2.0 INITIALIZED", "color: #ff003c; font-size: 18px; font-weight: bold; text-shadow: 0 0 10px #ff003c;");
+        
+        // Custom cursor with trail effect
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let mouseX = 0, mouseY = 0;
+        let trail = [];
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            
+            // Create trail effect
+            if (Math.random() > 0.7) {
+                const trailDot = document.createElement('div');
+                trailDot.style.cssText = `
+                    position: fixed;
+                    width: 4px;
+                    height: 4px;
+                    background: var(--neon);
+                    border-radius: 50%;
+                    left: ${mouseX}px;
+                    top: ${mouseY}px;
+                    pointer-events: none;
+                    z-index: 9998;
+                    opacity: 0.7;
+                `;
+                document.body.appendChild(trailDot);
+                trail.push(trailDot);
+                
+                if (trail.length > 10) {
+                    const old = trail.shift();
+                    if (old && old.parentNode) {
+                        old.parentNode.removeChild(old);
+                    }
+                }
+                
+                // Fade out trail dots
+                setTimeout(() => {
+                    if (trailDot.parentNode) {
+                        gsap.to(trailDot, {
+                            opacity: 0,
+                            duration: 0.5,
+                            onComplete: () => {
+                                if (trailDot.parentNode) {
+                                    trailDot.parentNode.removeChild(trailDot);
+                                }
+                            }
+                        });
+                    }
+                }, 100);
+            }
+        });
+        
+        // Cursor hover effects
+        document.querySelectorAll('.nav-link, .project-card, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.8)';
+                cursor.style.borderColor = 'var(--blood)';
+                cursor.style.background = 'rgba(255, 0, 60, 0.2)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = 'var(--neon)';
+                cursor.style.background = 'transparent';
+            });
+        });
+        
+        // ====================
+        // FIXED NAVIGATION
+        // ====================
+        document.querySelectorAll('.nav-link[data-target]').forEach(link => {
+            link.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Add visual feedback
+                    this.style.color = 'var(--matrix)';
+                    this.style.boxShadow = '0 0 20px var(--matrix)';
+                    setTimeout(() => {
+                        this.style.color = '';
+                        this.style.boxShadow = '';
+                    }, 500);
+                }
+            });
+        });
+        
+        // ====================
+        // TERMINAL TYPING EFFECT
+        // ====================
+        const terminalText = document.querySelector('.typing-text');
+        const texts = [
+            "INITIATING CYBERSPACE PROTOCOL...",
+            "LOADING PENTESTER_PROFILE.EXE...",
+            "ACCESSING GITHUB_REPOSITORIES...",
+            "WELCOME TO THE DIGITAL LABYRINTH",
+            "SYSTEM READY FOR HACKING..."
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        
+        function typeWriter() {
+            if (textIndex < texts.length) {
+                if (charIndex < texts[textIndex].length) {
+                    terminalText.innerHTML += texts[textIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    setTimeout(() => {
+                        terminalText.innerHTML = '';
+                        textIndex++;
+                        charIndex = 0;
+                        if (textIndex === texts.length) {
+                            // Final transition
+                            gsap.to("#terminal", {
+                                opacity: 0,
+                                duration: 1.5,
+                                onComplete: () => {
+                                    document.getElementById('terminal').style.display = 'none';
+                                    document.querySelector('.cyber-nav').style.display = 'flex';
+                                    document.getElementById('main-content').style.display = 'block';
+                                    
+                                    gsap.from("#main-content", {
+                                        opacity: 0,
+                                        y: 50,
+                                        duration: 2,
+                                        ease: "power4.out"
+                                    });
+                                    
+                                    loadAllContent();
+                                }
+                            });
+                        } else {
+                            setTimeout(typeWriter, 1000);
+                        }
+                    }, 1500);
+                }
+            }
+        }
+        
+        // ====================
+        // LOAD ALL CONTENT
+        // ====================
+        function loadAllContent() {
+            loadAboutMe();
+            loadProjects();
+            loadSkills();
+            initMatrixRain();
+            initAudioVisualizer();
+        }
+        
+        // ====================
+        // ABOUT ME WITH PHOTO
+        // ====================
+        function loadAboutMe() {
+            const aboutText = `I'm <span class="highlight">R Dinesh</span>, a <span class="highlight">cybersecurity enthusiast</span> and tech builder who loves breaking things to understand how they work — and then building them better. I'm deeply interested in <span class="highlight">cybersecurity</span>, <span class="highlight">ethical hacking</span>, and <span class="highlight">AI-powered systems</span>, and I spend most of my time learning by doing rather than just reading.
+
+I've worked on projects ranging from <span class="highlight">Python-based AI systems</span> and automation tools to mobile apps using Flutter and Firebase, and hands-on hardware experiments involving microcontrollers and robotics. I enjoy solving real-world problems, exploring system vulnerabilities, and pushing my skills beyond the basics.
+
+I believe in <span class="highlight">self-learning</span>, <span class="highlight">consistency</span>, and <span class="highlight">experimentation</span>. Whether it's completing <span class="highlight">CTF challenges</span>, building futuristic interfaces inspired by JARVIS, or designing scalable app ideas, my goal is simple: <span class="highlight">grow every day and master my craft</span>.
+
+I'm currently focused on strengthening my foundations in cybersecurity and advanced computing, with a long-term vision of building <span class="highlight">impactful, secure, and intelligent systems</span>.`;
+            
+            const aboutContainer = document.getElementById('about-text');
+            const lines = aboutText.split('\n');
+            
+            lines.forEach((line, index) => {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'about-line';
+                lineDiv.innerHTML = line;
+                aboutContainer.appendChild(lineDiv);
+                
+                gsap.to(lineDiv, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    delay: index * 0.3,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: lineDiv,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+            
+            // Add click to change photo effect
+            document.getElementById('profile-photo').addEventListener('click', function() {
+                const glitch = this;
+                gsap.to(glitch, {
+                    duration: 0.1,
+                    x: () => Math.random() * 20 - 10,
+                    y: () => Math.random() * 20 - 10,
+                    repeat: 10,
+                    yoyo: true,
+                    onComplete: () => {
+                        gsap.to(glitch, {x: 0, y: 0, duration: 0.2});
+                    }
+                });
+            });
+        }
+        
+        // ====================
+        // PROJECTS WITH FIXED LINKS
+        // ====================
+        function loadProjects() {
+            const projects = [
+                {
+                    title: "AI-BASED FIREWALL (Day100)",
+                    description: "An intelligent firewall built in Python that filters network traffic, analyzes logs using AI (Gemini), and automatically blocks malicious IPs with real-time alerts and ESP8266 LED integration.",
+                    tech: ["Python", "Flask", "AI/ML", "Networking"],
+                    link: "https://github.com/rdineshd176-png/Day100-firewall"
+                },
+                {
+                    title: "WiFi Network Scanner (Day82)",
+                    description: "A Python-based WiFi scanner that detects nearby wireless networks, displays SSID, signal strength, MAC addresses, and authentication types — ideal for network reconnaissance and learning WiFi APIs.",
+                    tech: ["Python", "Networking", "Scanning"],
+                    link: "https://github.com/rdineshd176-png/Day82-WIFI-Scanner"
+                },
+                {
+                    title: "Web Directory Finder (Day80)",
+                    description: "Python CLI tool to discover hidden or sensitive web directories using built-in and user-provided wordlists — an interactive reconnaissance utility for web analysis.",
+                    tech: ["Python", "Requests", "CLI"],
+                    link: "https://github.com/rdineshd176-png/Day80-Web-Directory-Finder"
+                },
+                {
+                    title: "Python Keylogger (Day77)",
+                    description: "Simple educational Python keylogger that records keystrokes and active window titles — built for cybersecurity learning with clear safeguards and usage disclaimers.",
+                    tech: ["Python", "Security", "Event Logging"],
+                    link: "https://github.com/rdineshd176-png/Day77-Python-Keylogger"
+                },
+                {
+                    title: "Simple CLI WhatsApp Clone (Day64)",
+                    description: "A real-time chat app built with Python sockets allowing multiple clients to communicate via a server — a mini WhatsApp-style messaging system for learning networking and threading.",
+                    tech: ["Python", "Sockets", "Networking"],
+                    link: "https://github.com/rdineshd176-png/Day64-Simple-CLI-WhatsApp"
+                },
+                {
+                    title: "ShadowIDE",
+                    description: "A custom lightweight IDE/workflow setup you built (likely for Termux coding vs full VS Code) to streamline development on mobile terminals.",
+                    tech: ["Python"],
+                    link: "https://github.com/rdineshd176-png/ShadowIDE"
+                },
+                {
+                    title: "Medical Insurance Project (Day99)",
+                    description: "This repository was created as part of your 100-day challenge, but currently has no code yet — placeholder for an upcoming medical insurance system.",
+                    tech: ["JavaScript", "HTML", "CSS"], // placeholder (update once you add code)
+                    link: "https://github.com/rdineshd176-png/Day99-Medical-Insurance"
+                },
+                {
+                    title: "More to Ship Soon",
+                    description: "Your 100-Days challenge includes more security and Python tools still in progress — stay tuned!",
+                    tech: ["Various"],
+                    link: "https://github.com/rdineshd176-png"
+                }
+            ];
+
+            
+            
+            const container = document.getElementById('projects-container');
+            
+            projects.forEach((project, index) => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.innerHTML = `
+                    <h3 class="project-title">${project.title}</h3>
+                    <p style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.6;">${project.description}</p>
+                    <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        ${project.tech.map(tech => `
+                            <span style="display: inline-block; background: rgba(0, 255, 157, 0.15); color: var(--neon); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(0, 255, 157, 0.3);">
+                                ${tech}
+                            </span>
+                        `).join('')}
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="${project.link}" target="_blank" style="color: var(--psychic); text-decoration: none; font-weight: bold; padding: 0.7rem 1.5rem; border: 1px solid var(--psychic); border-radius: 5px; transition: all 0.3s;" 
+                           onmouseover="this.style.background='var(--psychic)'; this.style.color='#000';"
+                           onmouseout="this.style.background='transparent'; this.style.color='var(--psychic)';">
+                           VIEW CODE
+                        </a>
+                        <button class="demo-btn" style="color: var(--matrix); background: transparent; border: 1px solid var(--matrix); padding: 0.7rem 1.5rem; border-radius: 5px; cursor: pointer; font-family: 'Courier New';"
+                                onclick="showDemo('${project.title}')">
+                            LIVE DEMO
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+                
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 100,
+                    rotationX: -30,
+                    duration: 1,
+                    delay: index * 0.15,
+                    ease: "back.out(1.7)",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+        }
+        
+        // ====================
+        // SKILLS SECTION
+        // ====================
+        function loadSkills() {
+            const skills = [
+                { name: "PYTHON", level: 90, icon: "🐍", color: "#00ff9d" },
+                { name: "LINUX/UNIX", level: 85, icon: "🐧", color: "#ff003c" },
+                { name: "CYBER SECURITY", level: 80, icon: "🛡️", color: "#9d00ff" },
+                { name: "ETHICAL HACKING", level: 75, icon: "🎯", color: "#00ccff" },
+                { name: "ESP8266/IOT", level: 80, icon: "📡", color: "#00ff41" },
+                { name: "FLASK/DJANGO", level: 85, icon: "🔥", color: "#ff9900" },
+                { name: "OPENCV/AI", level: 70, icon: "👁️", color: "#ff00ff" },
+                { name: "NETWORKING", level: 75, icon: "🌐", color: "#00ffff" },
+                { name: "GIT/GITHUB", level: 90, icon: "📊", color: "#f1502f" },
+                { name: "WEB SECURITY", level: 80, icon: "🔒", color: "#ffd700" }
+            ];
+            
+            const container = document.getElementById('skills-container');
+            
+            skills.forEach((skill, index) => {
+                const skillDiv = document.createElement('div');
+                skillDiv.className = 'skill-item';
+                skillDiv.innerHTML = `
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">${skill.icon}</div>
+                    <h3 style="color: ${skill.color}; margin-bottom: 1rem; font-size: 1.3rem;">${skill.name}</h3>
+                    <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                        <div class="skill-progress" style="height: 100%; width: 0%; background: ${skill.color}; border-radius: 4px;"></div>
+                    </div>
+                    <div style="color: var(--neon); font-size: 0.9rem;">LEVEL: ${skill.level}%</div>
+                `;
+                
+                container.appendChild(skillDiv);
+                
+                gsap.to(skillDiv.querySelector('.skill-progress'), {
+                    width: `${skill.level}%`,
+                    duration: 2,
+                    delay: index * 0.1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: skillDiv,
+                        start: "top 90%",
+                        toggleActions: "play none none none"
+                    }
+                });
+            });
+        }
+        
+        // ====================
+        // HACKING GAME
+        // ====================
+        document.getElementById('game-btn').addEventListener('click', function() {
+            const modal = document.getElementById('game-modal');
+            modal.style.display = 'flex';
+            gsap.from(modal, { opacity: 0, scale: 0.8, duration: 0.5 });
+            
+            startHackingGame();
+        });
+        
+        document.getElementById('close-game').addEventListener('click', function() {
+            const modal = document.getElementById('game-modal');
+            gsap.to(modal, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.3,
+                onComplete: () => {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+        
+        function startHackingGame() {
+            const gameContent = document.getElementById('game-content');
+            gameContent.innerHTML = `
+                <div style="color: var(--neon); margin-bottom: 1rem;">
+                    > WELCOME TO PENTEST SIMULATOR 2024
+                </div>
+                <div style="color: var(--cyber-blue); margin-bottom: 1rem;">
+                    > OBJECTIVE: CRACK THE SERVER PASSWORD
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <div style="color: #ccc;">Password Format: 4-digit number (0000-9999)</div>
+                    <div style="color: #ccc;">Attempts Remaining: <span id="attempts">10</span></div>
+                </div>
+                <div>
+                    <input type="text" id="guess-input" placeholder="Enter 4-digit code" 
+                           style="background: #111; color: var(--neon); border: 1px solid var(--matrix); padding: 10px; width: 200px; font-family: 'Courier New';">
+                    <button onclick="makeGuess()" style="background: var(--matrix); color: #000; border: none; padding: 10px 20px; margin-left: 10px; font-family: 'Courier New'; cursor: pointer;">HACK</button>
+                </div>
+                <div id="game-messages" style="margin-top: 2rem; min-height: 100px; border-top: 1px solid #333; padding-top: 1rem;"></div>
+            `;
+            
+            // Generate random password
+            window.gamePassword = Math.floor(1000 + Math.random() * 9000).toString();
+            window.attemptsLeft = 10;
+            console.log("Game Password (for testing):", window.gamePassword);
+        }
+        
+        function makeGuess() {
+            const input = document.getElementById('guess-input');
+            const guess = input.value;
+            const attemptsEl = document.getElementById('attempts');
+            const messagesEl = document.getElementById('game-messages');
+            
+            if (!/^\d{4}$/.test(guess)) {
+                addMessage("> ERROR: Enter 4-digit number", "var(--blood)");
+                return;
+            }
+            
+            window.attemptsLeft--;
+            attemptsEl.textContent = window.attemptsLeft;
+            
+            if (guess === window.gamePassword) {
+                addMessage(`> SUCCESS! Password cracked: ${window.gamePassword}`, "var(--matrix)");
+                addMessage("> SERVER ACCESS GRANTED", "var(--neon)");
+                addMessage("> DOWNLOADING DATA...", "var(--psychic)");
+                document.getElementById('guess-input').disabled = true;
+                
+                // Celebration effect
+                for(let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        createParticle();
+                    }, i * 50);
+                }
+            } else {
+                const diff = Math.abs(parseInt(guess) - parseInt(window.gamePassword));
+                let hint = diff > 500 ? "WAY OFF" : diff > 100 ? "FAR" : diff > 50 ? "CLOSE" : "VERY CLOSE";
+                
+                addMessage(`> FAILED: ${guess} - ${hint}`, "var(--blood)");
+                
+                if (window.attemptsLeft <= 0) {
+                    addMessage(`> GAME OVER! Password was ${window.gamePassword}`, "var(--blood)");
+                    addMessage("> SYSTEM LOCKED", "var(--blood)");
+                    document.getElementById('guess-input').disabled = true;
+                }
+            }
+            
+            input.value = '';
+            input.focus();
+        }
+        
+        function addMessage(text, color) {
+            const messagesEl = document.getElementById('game-messages');
+            const msg = document.createElement('div');
+            msg.style.color = color;
+            msg.style.marginBottom = '0.5rem';
+            msg.style.fontFamily = "'Courier New', monospace";
+            msg.textContent = text;
+            messagesEl.appendChild(msg);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        
+        // ====================
+        // AUDIO VISUALIZER
+        // ====================
+        function initAudioVisualizer() {
+            const canvas = document.getElementById('audio-visualizer');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = 200;
+            canvas.height = 100;
+            
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const analyser = audioContext.createAnalyser();
+            const source = audioContext.createMediaElementSource(document.getElementById('bg-audio'));
+            
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            
+            function draw() {
+                requestAnimationFrame(draw);
+                
+                analyser.getByteFrequencyData(dataArray);
+                
+                ctx.fillStyle = 'rgba(0, 1, 16, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                const barWidth = (canvas.width / bufferLength) * 2.5;
+                let barHeight;
+                let x = 0;
+                
+                for(let i = 0; i < bufferLength; i++) {
+                    barHeight = dataArray[i] / 2;
+                    
+                    const gradient = ctx.createLinearGradient(0, canvas.height - barHeight, 0, canvas.height);
+                    gradient.addColorStop(0, '#00ff9d');
+                    gradient.addColorStop(1, '#9d00ff');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+                    
+                    x += barWidth + 1;
+                }
+            }
+            
+            draw();
+        }
+        
+        // ====================
+        // AUDIO TOGGLE
+        // ====================
+        document.getElementById('audio-toggle').addEventListener('click', function() {
+            const audio = document.getElementById('bg-audio');
+            const toggle = document.getElementById('audio-toggle');
+            
+            if (audio.paused) {
+                audio.play();
+                toggle.textContent = '[SOUND:ON]';
+                toggle.style.color = 'var(--matrix)';
+            } else {
+                audio.pause();
+                toggle.textContent = '[SOUND:OFF]';
+                toggle.style.color = 'var(--blood)';
+            }
+        });
+        
+        // ====================
+        // COPY TO CLIPBOARD
+        // ====================
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Visual feedback
+                const feedback = document.createElement('div');
+                feedback.textContent = 'COPIED!';
+                feedback.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: var(--matrix);
+                    color: #000;
+                    padding: 1rem 2rem;
+                    border-radius: 5px;
+                    z-index: 10001;
+                    font-weight: bold;
+                    opacity: 0;
+                `;
+                document.body.appendChild(feedback);
+                
+                gsap.to(feedback, {
+                    opacity: 1,
+                    y: -20,
+                    duration: 0.3,
+                    onComplete: () => {
+                        gsap.to(feedback, {
+                            opacity: 0,
+                            y: -40,
+                            duration: 0.3,
+                            delay: 0.5,
+                            onComplete: () => feedback.remove()
+                        });
+                    }
+                });
+            });
+        }
+        
+        // ====================
+        // SHOW DEMO FUNCTION
+        // ====================
+        function showDemo(projectName) {
+            const demo = document.createElement('div');
+            demo.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0,0,0,0.95);
+                border: 2px solid var(--neon);
+                padding: 2rem;
+                z-index: 10002;
+                max-width: 90%;
+                max-height: 90%;
+                overflow: auto;
+                border-radius: 10px;
+            `;
+            demo.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="color: var(--neon);">${projectName} DEMO</h3>
+                    <span onclick="this.parentNode.parentNode.remove()" style="color: var(--blood); cursor: pointer; font-size: 1.5rem;">✕</span>
+                </div>
+                <div style="color: #ccc;">
+                    <p>🔒 This project demo is currently secured.</p>
+                    <p>🔑 Access requires authentication.</p>
+                    <p>📁 View full source code on GitHub.</p>
+                </div>
+                <div style="margin-top: 2rem; text-align: center;">
+                    <a href="https://github.com/rdineshd176-png" target="_blank" style="color: var(--psychic); text-decoration: none; border: 1px solid var(--psychic); padding: 0.7rem 1.5rem; display: inline-block;">
+                        VIEW ON GITHUB
+                    </a>
+                </div>
+            `;
+            
+            document.body.appendChild(demo);
+            gsap.from(demo, { scale: 0.8, opacity: 0, duration: 0.3 });
+        }
+        
+        // ====================
+        // CREATE PARTICLE EFFECT
+        // ====================
+        function createParticle() {
+            const particle = document.createElement('div');
+            const colors = ['#00ff9d', '#9d00ff', '#ff003c', '#00ff41', '#00ccff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            particle.style.cssText = `
+                position: fixed;
+                width: ${Math.random() * 10 + 5}px;
+                height: ${Math.random() * 10 + 5}px;
+                background: ${color};
+                border-radius: 50%;
+                left: ${Math.random() * window.innerWidth}px;
+                top: ${Math.random() * window.innerHeight}px;
+                pointer-events: none;
+                z-index: 9999;
+                box-shadow: 0 0 20px ${color};
+            `;
+            
+            document.body.appendChild(particle);
+            
+            gsap.to(particle, {
+                x: Math.random() * 200 - 100,
+                y: Math.random() * 200 - 100,
+                opacity: 0,
+                scale: 0,
+                duration: Math.random() * 2 + 1,
+                onComplete: () => particle.remove()
+            });
+        }
+        
+        // ====================
+        // MATRIX RAIN
+        // ====================
+        function initMatrixRain() {
+            const canvas = document.createElement('canvas');
+            canvas.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: -1;
+                opacity: 0.1;
+            `;
+            document.body.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const chars = "01";
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+            
+            for(let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * -100;
+            }
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 1, 16, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.font = `${fontSize}px monospace`;
+                
+                for(let i = 0; i < drops.length; i++) {
+                    const text = Math.random() > 0.5 ? '1' : '0';
+                    ctx.fillStyle = i % 3 === 0 ? '#00ff9d' : i % 3 === 1 ? '#9d00ff' : '#00ff41';
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 50);
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+        
+        // ====================
+        // 3D BACKGROUND
+        // ====================
+        function initThreeJS() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ 
+                alpha: true, 
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.getElementById('scene-container').appendChild(renderer.domElement);
+            renderer.domElement.style.cssText = 'position: fixed; top: 0; left: 0; z-index: -1;';
+            
+            // Create wireframe sphere
+            const geometry = new THREE.SphereGeometry(15, 32, 32);
+            const wireframe = new THREE.WireframeGeometry(geometry);
+            const line = new THREE.LineSegments(wireframe);
+            line.material.depthTest = false;
+            line.material.opacity = 0.2;
+            line.material.transparent = true;
+            line.material.color = new THREE.Color(0x00ff9d);
+            scene.add(line);
+            
+            // Add particles
+            const particlesCount = 3000;
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 100;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x9d00ff,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            camera.position.z = 30;
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                line.rotation.x += 0.001;
+                line.rotation.y += 0.002;
+                
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.001;
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // ====================
+        // START EVERYTHING
+        // ====================
+        window.onload = function() {
+            typeWriter();
+            initThreeJS();
+            
+            // Start audio with user interaction
+            const audio = document.getElementById('bg-audio');
+            audio.volume = 0.2;
+            
+            document.addEventListener('click', function initAudio() {
+                audio.play().catch(e => console.log("Audio:", e));
+                document.removeEventListener('click', initAudio);
+            });
+        };
+    </script>
+</body>
+</html>
